@@ -7223,6 +7223,38 @@ msgstr "Prototype"
 msgid "workspace.options.radius"
 msgstr "Radius"
 
+#: src/app/main/ui/workspace/sidebar/options/menus/slice_9.cljs
+msgid "workspace.options.slice-9.title"
+msgstr "9-slice"
+
+#: src/app/main/ui/workspace/sidebar/options/menus/slice_9.cljs
+msgid "workspace.options.slice-9.add"
+msgstr "Add 9-slice"
+
+#: src/app/main/ui/workspace/sidebar/options/menus/slice_9.cljs
+msgid "workspace.options.slice-9.remove"
+msgstr "Remove 9-slice"
+
+#: src/app/main/ui/workspace/sidebar/options/menus/slice_9.cljs
+msgid "workspace.options.slice-9.toggle"
+msgstr "Toggle 9-slice"
+
+#: src/app/main/ui/workspace/sidebar/options/menus/slice_9.cljs
+msgid "workspace.options.slice-9.top"
+msgstr "Top"
+
+#: src/app/main/ui/workspace/sidebar/options/menus/slice_9.cljs
+msgid "workspace.options.slice-9.right"
+msgstr "Right"
+
+#: src/app/main/ui/workspace/sidebar/options/menus/slice_9.cljs
+msgid "workspace.options.slice-9.bottom"
+msgstr "Bottom"
+
+#: src/app/main/ui/workspace/sidebar/options/menus/slice_9.cljs
+msgid "workspace.options.slice-9.left"
+msgstr "Left"
+
 #: src/app/main/ui/workspace/sidebar/options/menus/border_radius.cljs:271, src/app/main/ui/workspace/sidebar/options/menus/border_radius.cljs:323
 msgid "workspace.options.radius-bottom-left"
 msgstr "Bottom left"

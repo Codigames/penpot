@@ -842,6 +842,27 @@ pub extern "C" fn set_shape_corners(r1: f32, r2: f32, r3: f32, r4: f32) -> Resul
 
 #[no_mangle]
 #[wasm_error]
+pub extern "C" fn set_shape_slice_9(
+    enabled: bool,
+    top: i32,
+    right: i32,
+    bottom: i32,
+    left: i32,
+) -> Result<()> {
+    with_current_shape_mut!(state, |shape: &mut Shape| {
+        let slice = crate::shapes::Slice9::new(top, right, bottom, left);
+        let value = if enabled && slice.has_margins() {
+            Some(slice)
+        } else {
+            None
+        };
+        shape.set_slice_9(value);
+    });
+    Ok(())
+}
+
+#[no_mangle]
+#[wasm_error]
 pub extern "C" fn get_selection_rect() -> Result<*mut u8> {
     let bytes = mem::bytes();
 

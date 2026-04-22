@@ -78,14 +78,21 @@ fn draw_image_fill(
         Type::Text(_) => unimplemented!("TODO"),
     }
 
-    // Draw the image with the calculated destination rectangle
-    canvas.draw_image_rect_with_sampling_options(
-        image,
-        Some((&src_rect, skia::canvas::SrcRectConstraint::Strict)),
-        dest_rect,
-        render_state.sampling_options,
-        paint,
-    );
+    let center_rect = shape
+        .slice_9
+        .and_then(|s9| s9.center_rect(size.width, size.height));
+
+    if let Some(center) = center_rect {
+        canvas.draw_image_nine(image, &center, dest_rect, skia::FilterMode::Linear, Some(paint));
+    } else {
+        canvas.draw_image_rect_with_sampling_options(
+            image,
+            Some((&src_rect, skia::canvas::SrcRectConstraint::Strict)),
+            dest_rect,
+            render_state.sampling_options,
+            paint,
+        );
+    }
 
     // Restore the canvas to remove the clipping
     canvas.restore();

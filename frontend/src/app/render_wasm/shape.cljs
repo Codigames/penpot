@@ -224,6 +224,9 @@
           (dm/get-prop shape :r3)
           v])
 
+        :slice-9
+        (api/set-shape-slice-9 v)
+
         :svg-attrs
         (do
           (api/set-shape-svg-attrs v)

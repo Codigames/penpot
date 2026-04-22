@@ -260,7 +260,14 @@
               :gen/gen (sg/elements ["image/jpeg"
                                      "image/png"])}
       [:maybe :string]]
-     [:id ::sm/uuid]]]])
+     [:id ::sm/uuid]]]
+   [:slice-9 {:optional true}
+    [:map
+     [:enabled? :boolean]
+     [:top    [::sm/int {:min 0 :gen/gen sg/int}]]
+     [:right  [::sm/int {:min 0 :gen/gen sg/int}]]
+     [:bottom [::sm/int {:min 0 :gen/gen sg/int}]]
+     [:left   [::sm/int {:min 0 :gen/gen sg/int}]]]]])
 
 (def ^:private schema:path-attrs
   [:map {:title "PathAttrs"}

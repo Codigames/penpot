@@ -389,6 +389,8 @@
 
             :blur
 
+            :slice-9
+
             :exports
 
             :layout-item-margin
