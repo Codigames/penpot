@@ -65,6 +65,56 @@ git checkout -b feat/your-feature
 git push -u origin feat/your-feature
 ```
 
+## Release branch (deploying multiple features together)
+
+When you have more than one feature branch and want to deploy them
+together, keep a dedicated `release` branch built from `develop` + every
+feature. **Never commit directly to `release`** — only rebuild it.
+
+Add or update a feature in the release:
+
+```bash
+git checkout release
+git merge --no-ff feat/image-9-slice
+git merge --no-ff feat/other-feature
+git push origin release
+```
+
+`--no-ff` forces a merge commit per feature so each one stays
+identifiable in the history, and can be reverted wholesale with
+`git revert -m 1 <merge-sha>`.
+
+Rebuilding `release` after syncing `develop` from upstream (recommended
+because the old merges become stale):
+
+```bash
+# 1. Sync develop with upstream first (see section above).
+
+# 2. Rebase each feature branch on the refreshed develop.
+for b in feat/image-9-slice feat/other-feature; do
+  git checkout $b
+  git rebase develop
+  git push --force-with-lease origin $b
+done
+
+# 3. Recreate release from scratch (cleaner than merging over and over).
+git checkout develop
+git branch -D release 2>/dev/null || true
+git checkout -b release
+git merge --no-ff feat/image-9-slice
+git merge --no-ff feat/other-feature
+git push --force-with-lease origin release
+```
+
+Rebuilds require force-push because `release` is a reconstructed branch,
+not a linear advance. `--force-with-lease` refuses the push if the remote
+moved behind your back.
+
+Conflict resolution lives on the feature branch (during the rebase),
+never on `release`. This keeps each fix in the feature it belongs to.
+
+Deploy / build artifacts from `release`.
+
 ## Proposing changes upstream
 
 If you want to contribute a branch back to penpot/penpot:
