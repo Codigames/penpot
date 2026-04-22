@@ -19,6 +19,7 @@
    [app.main.ui.workspace.sidebar.options.menus.layout-item :refer [layout-item-attrs layout-item-menu]]
    [app.main.ui.workspace.sidebar.options.menus.measures :refer [measure-attrs measures-menu*]]
    [app.main.ui.workspace.sidebar.options.menus.shadow :refer [shadow-menu*]]
+   [app.main.ui.workspace.sidebar.options.menus.slice-9 :refer [slice-9-menu*]]
    [app.main.ui.workspace.sidebar.options.menus.stroke :refer [stroke-attrs stroke-menu*]]
    [app.main.ui.workspace.sidebar.options.menus.svg-attrs :refer [svg-attrs-menu*]]
    [rumext.v2 :as mf]))
@@ -125,6 +126,10 @@
        :type type
        :values shape
        :applied-tokens applied-tokens}]
+
+     (when (some :fill-image (get shape :fills))
+       [:> slice-9-menu* {:ids ids
+                          :values (select-keys shape [:slice-9])}])
 
      [:> stroke-menu* {:ids ids
                        :type type

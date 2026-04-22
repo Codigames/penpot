@@ -5,20 +5,24 @@
 // Copyright (c) KALEIDOS INC
 
 @use "refactor/common-refactor.scss" as deprecated;
-@use "../../../sidebar/common/sidebar.scss" as sidebar;
 @use "ds/typography" as t;
 
 .element-set {
-  @include sidebar.option-grid-structure;
+  @include deprecated.flex-column;
+
+  gap: var(--sp-xs);
 }
 
 .element-title {
-  grid-column: span 8;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .element-set-content {
   @include deprecated.flex-column;
 
+  gap: var(--sp-xs);
   margin-bottom: deprecated.$s-8;
 }
 
@@ -29,6 +33,8 @@
 .small-input {
   @extend %input-element;
   @include t.use-typography("body-small");
+
+  min-width: 0;
 }
 
 .slice-9-grid {

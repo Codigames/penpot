@@ -1179,8 +1179,7 @@
       (when (and (some? content) (= type :svg-raw))
         (set-shape-svg-raw-content (get-static-markup shape)))
       (set-shape-shadows shadows)
-      (when (= type :image)
-        (set-shape-slice-9 slice-9))
+      (set-shape-slice-9 slice-9)
       (when (= type :text)
         (set-shape-grow-type grow-type))
 
