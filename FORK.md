@@ -4,6 +4,11 @@ This is a fork of [penpot/penpot](https://github.com/penpot/penpot). This
 document is a cheat-sheet for keeping it in sync with upstream. It lives
 only on this fork; do not include it in PRs proposed to the upstream repo.
 
+A `Makefile` at the repo root wraps the most common operations (`make
+help` lists them). Use `make dev` / `make stop` / `make sync-upstream` if
+you prefer not to type the underlying commands. The detailed rules below
+are still the source of truth — the Makefile is just shortcuts.
+
 ## Remotes
 
 ```
