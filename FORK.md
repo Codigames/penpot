@@ -27,18 +27,30 @@ Verify with `git remote -v`. Never push to `upstream`.
 
 ## Syncing `develop` with upstream
 
-When the original project adds commits you want to pull in:
+`develop` is not a pure mirror of `upstream/develop`: it carries a small
+set of fork-only infrastructure commits on top (the `Makefile`,
+`FORK.md`, and any dev-loop tweaks). Each sync rebases those commits
+onto the latest upstream:
 
 ```bash
 git checkout develop
 git fetch upstream
-git merge --ff-only upstream/develop       # refuses if local has diverged
-git push origin develop                    # mirror into your fork
+git rebase upstream/develop
+git push --force-with-lease origin develop
 ```
 
-If `--ff-only` fails it means you have local commits on `develop`. Don't.
-Feature work belongs on feature branches; `develop` should stay a clean
-mirror.
+`--force-with-lease` is required because the rebase rewrites the
+fork-tooling commits each time, and is safe here because `origin/develop`
+has a single consumer (this fork). If the lease check refuses the push,
+someone else moved the branch — fetch and reconcile before retrying,
+never pass `--force` blindly.
+
+If the rebase hits conflicts, it will be against your fork-tooling
+commits (Makefile / FORK.md). Resolve in place, `git add`,
+`git rebase --continue`; abort with `git rebase --abort` to bail out.
+
+Feature work still belongs on feature branches: only fork-infrastructure
+commits (build/dev tooling, this doc) should ever land on `develop`.
 
 ## Rebasing a feature branch on the refreshed `develop`
 
@@ -61,10 +73,8 @@ if someone else added commits to the remote branch since your last fetch.
 ## Starting a new feature branch
 
 ```bash
-git checkout develop
-git fetch upstream
-git merge --ff-only upstream/develop
-git push origin develop
+# 1. Sync develop with upstream first (see section above).
+
 git checkout -b feat/your-feature
 # ...work...
 git push -u origin feat/your-feature
