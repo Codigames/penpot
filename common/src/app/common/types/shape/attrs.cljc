@@ -140,6 +140,8 @@
            :blocked
            :hidden
 
+           :slice-9
+
            :fills
            :fill-color
            :fill-opacity
@@ -388,6 +390,8 @@
             :shadow
 
             :blur
+
+            :slice-9
 
             :exports
 

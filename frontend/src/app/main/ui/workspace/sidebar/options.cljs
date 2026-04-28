@@ -33,6 +33,7 @@
    [app.main.ui.workspace.sidebar.options.shapes.circle :as circle]
    [app.main.ui.workspace.sidebar.options.shapes.frame :as frame]
    [app.main.ui.workspace.sidebar.options.shapes.group :as group]
+   [app.main.ui.workspace.sidebar.options.shapes.image :as image]
    [app.main.ui.workspace.sidebar.options.shapes.multiple :as multiple]
    [app.main.ui.workspace.sidebar.options.shapes.path :as path]
    [app.main.ui.workspace.sidebar.options.shapes.rect :as rect]
@@ -70,6 +71,7 @@
       :path    [:> path/options* {:shape shape :file-id file-id :page-id page-id}]
       :svg-raw [:> svg-raw/options* {:shape shape :file-id file-id :page-id page-id}]
       :bool    [:> bool/options* {:shape shape :file-id file-id :page-id page-id}]
+      :image   [:> image/options* {:shape shape :file-id file-id :page-id page-id}]
       nil)))
 
 (mf/defc shape-options*

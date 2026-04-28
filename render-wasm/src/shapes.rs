@@ -22,6 +22,7 @@ mod paths;
 mod rects;
 mod shadows;
 mod shape_to_path;
+mod slice_9;
 mod stroke_paths;
 mod strokes;
 mod svg_attrs;
@@ -44,6 +45,7 @@ pub use paths::*;
 pub use rects::*;
 pub use shadows::*;
 pub use shape_to_path::*;
+pub use slice_9::*;
 pub use stroke_paths::*;
 pub use strokes::*;
 pub use svg_attrs::*;
@@ -193,6 +195,7 @@ pub struct Shape {
     pub svg: Option<skia::svg::Dom>,
     pub svg_attrs: Option<SvgAttrs>,
     pub shadows: Vec<Shadow>,
+    pub slice_9: Option<Slice9>,
     pub layout_item: Option<LayoutItem>,
     pub bounds: OnceCell<math::Bounds>,
     pub extrect_cache: RefCell<Option<(math::Rect, u32)>>,
@@ -294,6 +297,7 @@ impl Shape {
             svg: None,
             svg_attrs: None,
             shadows: Vec::with_capacity(1),
+            slice_9: None,
             layout_item: None,
             bounds: OnceCell::new(),
             extrect_cache: RefCell::new(None),
@@ -736,6 +740,10 @@ impl Shape {
         }
         self.invalidate_bounds();
         self.invalidate_extrect();
+    }
+
+    pub fn set_slice_9(&mut self, slice_9: Option<Slice9>) {
+        self.slice_9 = slice_9;
     }
 
     pub fn set_svg(&mut self, svg: skia::svg::Dom) {

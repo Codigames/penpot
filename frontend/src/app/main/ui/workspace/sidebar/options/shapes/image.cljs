@@ -4,7 +4,7 @@
 ;;
 ;; Copyright (c) KALEIDOS INC
 
-(ns app.main.ui.workspace.sidebar.options.shapes.rect
+(ns app.main.ui.workspace.sidebar.options.shapes.image
   (:require
    [app.common.data.macros :as dm]
    [app.common.types.shape.layout :as ctl]
@@ -12,16 +12,12 @@
    [app.main.ui.workspace.sidebar.options.menus.blur :refer [blur-menu*]]
    [app.main.ui.workspace.sidebar.options.menus.constraints :refer [constraint-attrs constraints-menu*]]
    [app.main.ui.workspace.sidebar.options.menus.exports :refer [exports-menu* exports-attrs]]
-   [app.main.ui.workspace.sidebar.options.menus.fill :as fill]
-   [app.main.ui.workspace.sidebar.options.menus.grid-cell :as grid-cell]
    [app.main.ui.workspace.sidebar.options.menus.layer :refer [layer-attrs layer-menu*]]
    [app.main.ui.workspace.sidebar.options.menus.layout-container :refer [layout-container-flex-attrs layout-container-menu]]
    [app.main.ui.workspace.sidebar.options.menus.layout-item :refer [layout-item-attrs layout-item-menu]]
    [app.main.ui.workspace.sidebar.options.menus.measures :refer [measure-attrs measures-menu*]]
    [app.main.ui.workspace.sidebar.options.menus.shadow :refer [shadow-menu*]]
    [app.main.ui.workspace.sidebar.options.menus.slice-9 :refer [slice-9-menu*]]
-   [app.main.ui.workspace.sidebar.options.menus.stroke :refer [stroke-attrs stroke-menu*]]
-   [app.main.ui.workspace.sidebar.options.menus.svg-attrs :refer [svg-attrs-menu*]]
    [rumext.v2 :as mf]))
 
 (mf/defc options*
@@ -37,9 +33,6 @@
         measure-values
         (select-keys shape measure-attrs)
 
-        stroke-values
-        (select-keys shape stroke-attrs)
-
         layer-values
         (select-keys shape layer-attrs)
 
@@ -51,6 +44,9 @@
 
         layout-container-values
         (select-keys shape layout-container-flex-attrs)
+
+        slice-9-values
+        (select-keys shape [:slice-9])
 
         is-layout-child-ref
         (mf/with-memo [ids]
@@ -74,14 +70,7 @@
         (mf/deref is-grid-parent-ref)
 
         is-layout-child-absolute?
-        (ctl/item-absolute? shape)
-
-        parents-by-ids-ref
-        (mf/with-memo [ids]
-          (refs/parents-by-ids ids))
-
-        parents
-        (mf/deref parents-by-ids-ref)]
+        (ctl/item-absolute? shape)]
 
     [:*
      [:> layer-menu* {:ids ids
@@ -94,17 +83,15 @@
                          :applied-tokens applied-tokens
                          :shapes shapes}]
 
+     [:> slice-9-menu* {:ids ids
+                        :values slice-9-values}]
+
      [:& layout-container-menu
       {:type type
        :ids ids
        :values layout-container-values
        :applied-tokens applied-tokens
        :multiple false}]
-
-     (when (and (= (count ids) 1) is-layout-child? is-grid-parent?)
-       [:& grid-cell/options
-        {:shape (first parents)
-         :cell (ctl/get-cell-by-shape-id (first parents) (first ids))}])
 
      (when ^boolean is-layout-child?
        [:& layout-item-menu
@@ -121,32 +108,14 @@
        [:> constraints-menu* {:ids ids
                               :values constraint-values}])
 
-     [:> fill/fill-menu*
-      {:ids ids
-       :type type
-       :values shape
-       :applied-tokens applied-tokens}]
-
-     (when (some :fill-image (get shape :fills))
-       [:> slice-9-menu* {:ids ids
-                          :values (select-keys shape [:slice-9])}])
-
-     [:> stroke-menu* {:ids ids
-                       :type type
-                       :values stroke-values
-                       :applied-tokens applied-tokens}]
-
      [:> shadow-menu* {:ids ids :values (get shape :shadow)}]
 
      [:> blur-menu* {:ids ids
                      :values (select-keys shape [:blur])}]
 
-     [:> svg-attrs-menu* {:ids ids
-                          :values (select-keys shape [:svg-attrs])}]
      [:> exports-menu* {:type type
                         :ids ids
                         :shapes shapes
                         :values (select-keys shape exports-attrs)
                         :page-id page-id
                         :file-id file-id}]]))
-

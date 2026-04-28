@@ -796,6 +796,15 @@
   (let [[r1 r2 r3 r4] (map #(d/nilv % 0) corners)]
     (h/call wasm/internal-module "_set_shape_corners" r1 r2 r3 r4)))
 
+(defn set-shape-slice-9
+  [slice-9]
+  (let [enabled? (boolean (:enabled? slice-9))
+        top      (d/nilv (:top    slice-9) 0)
+        right    (d/nilv (:right  slice-9) 0)
+        bottom   (d/nilv (:bottom slice-9) 0)
+        left     (d/nilv (:left   slice-9) 0)]
+    (h/call wasm/internal-module "_set_shape_slice_9" enabled? top right bottom left)))
+
 (defn set-flex-layout
   [shape]
   (let [dir        (-> (get shape :layout-flex-dir :row)
@@ -1149,7 +1158,8 @@
           grow-type    (get shape :grow-type)
           blur         (get shape :blur)
           svg-attrs    (get shape :svg-attrs)
-          shadows      (get shape :shadow)]
+          shadows      (get shape :shadow)
+          slice-9      (get shape :slice-9)]
 
       (shapes/set-shape-base-props shape)
 
@@ -1169,6 +1179,7 @@
       (when (and (some? content) (= type :svg-raw))
         (set-shape-svg-raw-content (get-static-markup shape)))
       (set-shape-shadows shadows)
+      (set-shape-slice-9 slice-9)
       (when (= type :text)
         (set-shape-grow-type grow-type))
 

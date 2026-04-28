@@ -242,7 +242,14 @@
    [:content path/schema:content]])
 
 (def ^:private schema:rect-attrs
-  [:map {:title "RectAttrs"}])
+  [:map {:title "RectAttrs"}
+   [:slice-9 {:optional true}
+    [:map
+     [:enabled? :boolean]
+     [:top    [::sm/int {:min 0 :gen/gen sg/int}]]
+     [:right  [::sm/int {:min 0 :gen/gen sg/int}]]
+     [:bottom [::sm/int {:min 0 :gen/gen sg/int}]]
+     [:left   [::sm/int {:min 0 :gen/gen sg/int}]]]]])
 
 (def ^:private schema:circle-attrs
   [:map {:title "CircleAttrs"}])
@@ -260,7 +267,14 @@
               :gen/gen (sg/elements ["image/jpeg"
                                      "image/png"])}
       [:maybe :string]]
-     [:id ::sm/uuid]]]])
+     [:id ::sm/uuid]]]
+   [:slice-9 {:optional true}
+    [:map
+     [:enabled? :boolean]
+     [:top    [::sm/int {:min 0 :gen/gen sg/int}]]
+     [:right  [::sm/int {:min 0 :gen/gen sg/int}]]
+     [:bottom [::sm/int {:min 0 :gen/gen sg/int}]]
+     [:left   [::sm/int {:min 0 :gen/gen sg/int}]]]]])
 
 (def ^:private schema:path-attrs
   [:map {:title "PathAttrs"}
